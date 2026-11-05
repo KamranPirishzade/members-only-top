@@ -7,8 +7,11 @@ import bcrypt from "bcryptjs";
 const signupValidationRules = [
   body("username")
     .trim()
-    .isLength({ min: 1, max: 200 })
-    .withMessage("Username is required"),
+    .isEmpty()
+    .withMessage("Username is required")
+    .bail()
+    .isLength({ max: 200 })
+    .withMessage("Username must be between 1 and 200 characters long"),
   body("password")
     .isLength({ min: 8 })
     .withMessage("Password is required and must be at least 8 characters long"),
@@ -22,11 +25,20 @@ const signupValidationRules = [
       }
       return true;
     }),
-  body("name").trim().isLength({ min: 1 }).withMessage("Name is required"),
+  body("name")
+    .trim()
+    .isEmpty()
+    .withMessage("Name is required")
+    .bail()
+    .isLength({ max: 200 })
+    .withMessage("Name must be between 1 and 200 characters long"),
   body("surname")
     .trim()
-    .isLength({ min: 1 })
-    .withMessage("Surname is required"),
+    .notEmpty()
+    .withMessage("Surname is required")
+    .bail()
+    .isLength({ max: 200 })
+    .withMessage("Surname must be between 1 and 200 characters long"),
 ];
 
 function getSignupPage(req: Request, res: Response) {
