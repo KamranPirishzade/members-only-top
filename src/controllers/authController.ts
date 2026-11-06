@@ -68,7 +68,18 @@ async function postSignup(req: Request, res: Response) {
     }
     throw error;
   }
-  res.redirect("/log-in");
+  res.redirect("/login");
 }
 
-export default { getSignupPage, postSignup, signupValidationRules };
+function getLoginPage(req: Request, res: Response) {
+  const messages = req.session.messages || [];
+  delete req.session.messages;
+  res.render("login", { error: messages.map((msg) => ({ msg })), data: {} });
+}
+
+export default {
+  getSignupPage,
+  postSignup,
+  signupValidationRules,
+  getLoginPage,
+};

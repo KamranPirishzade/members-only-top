@@ -29,4 +29,23 @@ async function createUser({
   );
 }
 
-export { createUser };
+async function getUserByUsername(username: string): Promise<User | undefined> {
+  const { rows } = await pool.query(
+    "SELECT * FROM users WHERE lower(username) = lower($1)",
+    [username],
+  );
+  return rows[0];
+}
+
+async function getUserById(
+  id: number,
+): Promise<Omit<User, "password_hash"> | undefined> {
+  const { rows } = await pool.query(
+    "SELECT id, name, surname, username, role FROM users WHERE id = $1",
+    [id],
+  );
+
+  return rows[0];
+}
+
+export { createUser, getUserByUsername, getUserById };
