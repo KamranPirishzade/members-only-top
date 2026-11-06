@@ -1,13 +1,13 @@
 import { Router } from "express";
 import authController from "../controllers/authController.ts";
 
-const authRouter = Router();
+const signupRouter = Router();
 
-authRouter.get("/", authController.getSignupPage);
-authRouter.post(
+signupRouter.get("/", authController.getSignupPage);
+signupRouter.post(
   "/",
   authController.signupValidationRules,
   authController.postSignup,
 );
 
-export default authRouter;
+export default signupRouter;

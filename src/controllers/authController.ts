@@ -42,14 +42,13 @@ const signupValidationRules = [
 ];
 
 function getSignupPage(req: Request, res: Response) {
-  res.render("signup", { title: "Sign Up", errors: [], data: {} });
+  res.render("signup", { errors: [], data: {} });
 }
 
 async function postSignup(req: Request, res: Response) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400).render("signup", {
-      title: "Sign Up",
       errors: errors.array(),
       data: matchedData(req),
     });
@@ -62,7 +61,6 @@ async function postSignup(req: Request, res: Response) {
   } catch (error) {
     if (isUniqueViolationError(error)) {
       res.status(400).render("signup", {
-        title: "Sign Up",
         errors: [{ msg: "Username already exists" }],
         data: matchedData(req),
       });

@@ -1,6 +1,6 @@
 import express from "express";
 import path from "node:path";
-import authRouter from "./routers/authRouter.ts";
+import signupRouter from "./routers/signupRouter.ts";
 import type { Request, Response, NextFunction } from "express";
 
 const dirname = path.join(import.meta.dirname, "..");
@@ -12,7 +12,7 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/signup", authRouter);
+app.use("/signup", signupRouter);
 
 app.use((req, res) => {
   res.status(404).send("404 Not Found");
