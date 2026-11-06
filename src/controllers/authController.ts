@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 const signupValidationRules = [
   body("username")
     .trim()
-    .isEmpty()
+    .notEmpty()
     .withMessage("Username is required")
     .bail()
     .isLength({ max: 200 })
@@ -27,7 +27,7 @@ const signupValidationRules = [
     }),
   body("name")
     .trim()
-    .isEmpty()
+    .notEmpty()
     .withMessage("Name is required")
     .bail()
     .isLength({ max: 200 })

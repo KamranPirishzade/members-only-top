@@ -12,7 +12,7 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/sign-up", authRouter);
+app.use("/signup", authRouter);
 
 app.use((req, res) => {
   res.status(404).send("404 Not Found");
