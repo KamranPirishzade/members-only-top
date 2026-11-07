@@ -86,10 +86,21 @@ async function createMessage({
   );
 }
 
+async function updateUserRole({
+  userId,
+  role,
+}: {
+  userId: number;
+  role: "user" | "member" | "admin";
+}): Promise<void> {
+  await pool.query("UPDATE users SET role = $1 WHERE id = $2", [role, userId]);
+}
+
 export {
   createUser,
   getUserByUsername,
   getUserById,
   getMessages,
   createMessage,
+  updateUserRole,
 };

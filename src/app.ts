@@ -9,6 +9,7 @@ import connectPgSimple from "connect-pg-simple";
 import pool from "./db/pool.ts";
 import passport from "passport";
 import "./config/passport.ts";
+import membershipRouter from "./routers/membershipRouter.ts";
 
 const PgSession = connectPgSimple(session);
 
@@ -61,6 +62,7 @@ app.post("/logout", (req, res, next) => {
     res.redirect("/login");
   });
 });
+app.use("/membership", membershipRouter);
 
 app.use((req, res) => {
   res.status(404).send("404 Not Found");
