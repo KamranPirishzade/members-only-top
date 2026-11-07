@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { body, validationResult, matchedData } from "express-validator";
 import { createUser } from "../db/queries.ts";
 import { isUniqueViolationError } from "../utils.ts";
@@ -77,9 +77,22 @@ function getLoginPage(req: Request, res: Response) {
   res.render("login", { error: messages.map((msg) => ({ msg })), data: {} });
 }
 
+function requireLogin(req: Request, res: Response, next: NextFunction) {
+  if (!req.user) return res.redirect("/login");
+  next();
+}
+
+function requireAdmin(req: Request, res: Response, next: NextFunction) {
+  if (!req.user || req.user.role !== "admin")
+    return res.status(403).send("Forbidden");
+  next();
+}
+
 export default {
   getSignupPage,
   postSignup,
   signupValidationRules,
   getLoginPage,
+  requireLogin,
+  requireAdmin,
 };
