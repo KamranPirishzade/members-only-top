@@ -19,6 +19,7 @@ interface Message {
 
 interface MessageWithUser {
   id: number;
+  title: string;
   content: string;
   created_at: Date;
   name: string;
@@ -70,4 +71,25 @@ async function getMessages(): Promise<MessageWithUser[]> {
   return rows;
 }
 
-export { createUser, getUserByUsername, getUserById, getMessages };
+async function createMessage({
+  userId,
+  title,
+  content,
+}: {
+  userId: number;
+  title: string;
+  content: string;
+}): Promise<void> {
+  await pool.query(
+    "INSERT INTO messages (user_id, title, content) VALUES ($1, $2, $3)",
+    [userId, title, content],
+  );
+}
+
+export {
+  createUser,
+  getUserByUsername,
+  getUserById,
+  getMessages,
+  createMessage,
+};

@@ -16,6 +16,8 @@ const dirname = path.join(import.meta.dirname, "..");
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.set("views", path.join(dirname, "views"));
 app.set("view engine", "ejs");
 

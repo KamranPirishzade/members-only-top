@@ -9,6 +9,7 @@
     <% if(currentUser) { %>
       <p>Welcome, <%= currentUser.username %>! <a href="/logout" onclick="event.preventDefault(); confirm('Are you sure you want to logout?') && document.getElementById('logout-form').submit();">Logout</a></p>
       <form id="logout-form" action="/logout" method="POST" style="display: none;"></form>
+      <a href="/messages/new">Create a new message</a>
     <% } else { %>
       <p><a href="/login">Login</a> | <a href="/signup">Sign Up</a></p>
     <% } %>
