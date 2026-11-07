@@ -10,6 +10,21 @@ interface User {
   role: "user" | "member" | "admin";
 }
 
+interface Message {
+  id: number;
+  content: string;
+  created_at: Date;
+  user_id: number;
+}
+
+interface MessageWithUser {
+  id: number;
+  content: string;
+  created_at: Date;
+  name: string;
+  surname: string;
+}
+
 async function createUser({
   name,
   surname,
@@ -48,4 +63,11 @@ async function getUserById(
   return rows[0];
 }
 
-export { createUser, getUserByUsername, getUserById };
+async function getMessages(): Promise<MessageWithUser[]> {
+  const { rows } = await pool.query(
+    "SELECT m.id, m.title, m.content, m.created_at, u.name, u.surname FROM messages m INNER JOIN users u ON m.user_id = u.id ORDER BY m.created_at DESC",
+  );
+  return rows;
+}
+
+export { createUser, getUserByUsername, getUserById, getMessages };

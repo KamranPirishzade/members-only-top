@@ -2,6 +2,7 @@ import express from "express";
 import path from "node:path";
 import signupRouter from "./routers/signupRouter.ts";
 import loginRouter from "./routers/loginRouter.ts";
+import messageRouter from "./routers/messagesRouter.ts";
 import type { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
@@ -42,11 +43,22 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
+  res.locals.canSeeAuthors =
+    req.user && (req.user.role === "member" || req.user.role === "admin");
   next();
 });
 
+app.use("/", messageRouter);
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
+app.post("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/login");
+  });
+});
 
 app.use((req, res) => {
   res.status(404).send("404 Not Found");

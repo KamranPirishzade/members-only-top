@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messages</title>
+  </head>
+  <body>
+    <% if(currentUser) { %>
+      <p>Welcome, <%= currentUser.username %>! <a href="/logout" onclick="event.preventDefault(); confirm('Are you sure you want to logout?') && document.getElementById('logout-form').submit();">Logout</a></p>
+      <form id="logout-form" action="/logout" method="POST" style="display: none;"></form>
+    <% } else { %>
+      <p><a href="/login">Login</a> | <a href="/signup">Sign Up</a></p>
+    <% } %>
+    <% if (messages.length > 0) { %>
+        <% messages.forEach((message) => { %>
+            <div>
+                <h3><%= message.title %></h3>
+                <p><%= message.content %></p>
+                <% if (canSeeAuthors) { %>
+                <small><%= message.name %> <%= message.surname %>, <%= message.created_at.toLocaleString() %></small>
+                <% } %>
+            </div>
+        <% }) %>
+
+    <% } else { %>
+      <p>No messages yet.</p>
+    <% } %>
+
+  </body>
+</html>

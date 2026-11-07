@@ -9,6 +9,18 @@ declare module "express-session" {
   }
 }
 
+declare global {
+  namespace Express {
+    interface User {
+      id: number;
+      name: string;
+      surname: string;
+      username: string;
+      role: "user" | "member" | "admin";
+    }
+  }
+}
+
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
