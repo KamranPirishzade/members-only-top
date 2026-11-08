@@ -19,5 +19,11 @@ messageRouter.post(
   messageController.postNewMessage,
 );
 
+messageRouter.post(
+  "/messages/:id/delete",
+  authController.requireLogin,
+  authController.requireAdmin,
+  messageController.deleteMessage,
+);
 
 export default messageRouter;

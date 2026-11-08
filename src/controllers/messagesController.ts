@@ -1,6 +1,11 @@
 import type { Request, Response } from "express";
-import { getMessages, createMessage } from "../db/queries.ts";
+import {
+  getMessages,
+  createMessage,
+  deleteMessageById,
+} from "../db/queries.ts";
 import { body, validationResult, matchedData } from "express-validator";
+import { parseId } from "../utils.ts";
 
 const newMessageValidationRules = [
   body("title")
@@ -37,9 +42,19 @@ async function postNewMessage(req: Request, res: Response) {
   res.redirect("/");
 }
 
+async function deleteMessage(req: Request, res: Response) {
+  const messageId = parseId(req.params.id);
+  if (typeof messageId !== "number") {
+    return res.status(400).send("Invalid message ID");
+  }
+  await deleteMessageById(messageId);
+  res.redirect("/");
+}
+
 export default {
   getMessagesPage,
   getNewMessagePage,
   postNewMessage,
   newMessageValidationRules,
+  deleteMessage,
 };

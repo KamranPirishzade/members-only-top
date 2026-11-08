@@ -96,6 +96,10 @@ async function updateUserRole({
   await pool.query("UPDATE users SET role = $1 WHERE id = $2", [role, userId]);
 }
 
+async function deleteMessageById(messageId: number): Promise<void> {
+  await pool.query("DELETE FROM messages WHERE id = $1", [messageId]);
+}
+
 export {
   createUser,
   getUserByUsername,
@@ -103,4 +107,5 @@ export {
   getMessages,
   createMessage,
   updateUserRole,
+  deleteMessageById,
 };

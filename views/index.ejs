@@ -10,6 +10,10 @@
       <p>Welcome, <%= currentUser.username %>! <a href="/logout" onclick="event.preventDefault(); confirm('Are you sure you want to logout?') && document.getElementById('logout-form').submit();">Logout</a></p>
       <form id="logout-form" action="/logout" method="POST" style="display: none;"></form>
       <a href="/messages/new">Create a new message</a>
+      <% if (currentUser.role === "user") { %>
+        <a href="/membership/join">Join the club</a>
+      <% } %>
+
     <% } else { %>
       <p><a href="/login">Login</a> | <a href="/signup">Sign Up</a></p>
     <% } %>
@@ -20,6 +24,11 @@
                 <p><%= message.content %></p>
                 <% if (canSeeAuthors) { %>
                 <small><%= message.name %> <%= message.surname %>, <%= message.created_at.toLocaleString() %></small>
+                <% if(currentUser.role==="admin") { %>
+                <form action="/messages/<%=message.id %>/delete" method="POST" onsubmit="return confirm('Delete this message?')">
+                    <button type="submit">Delete</button>
+                </form>
+                <% } %>
                 <% } %>
             </div>
         <% }) %>
