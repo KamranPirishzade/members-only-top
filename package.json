@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --env-file-if-exists=.env --watch src/app.ts",
-    "build": "tsc",
+    "build": "tsc && npm run build:css",
     "start": "node dist/app.js",
     "typecheck": "tsc --noEmit",
     "seed": "node --env-file-if-exists=.env src/db/seed.ts",
-    "seed:mock": "node --env-file-if-exists=.env src/db/mockData.ts"
+    "seed:mock": "node --env-file-if-exists=.env src/db/mockData.ts",
+    "build:css": "tailwindcss -i ./src/styles.css -o ./public/output.css --minify",
+    "watch:css": "tailwindcss -i ./src/styles.css -o ./public/output.css --watch"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
     "pg": "^8.23.1"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
     "@types/connect-pg-simple": "^7.0.3",
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.19.0",
@@ -42,6 +45,7 @@
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.23.1",
+    "tailwindcss": "^4.3.5",
     "typescript": "^7.0.2"
   }
 }

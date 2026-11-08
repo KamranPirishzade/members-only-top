@@ -1,41 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Messages</title>
+    <%- include('partials/head', { pageTitle: 'Messages' }) %>
   </head>
   <body>
-    <% if(currentUser) { %>
-      <p>Welcome, <%= currentUser.username %>! <a href="/logout" onclick="event.preventDefault(); confirm('Are you sure you want to logout?') && document.getElementById('logout-form').submit();">Logout</a></p>
-      <form id="logout-form" action="/logout" method="POST" style="display: none;"></form>
-      <a href="/messages/new">Create a new message</a>
-      <% if (currentUser.role === "user") { %>
-        <a href="/membership/join">Join the club</a>
+    <%- include('partials/header') %>
+
+    <main class="page">
+      <% if (!currentUser) { %>
+        <section class="banner">
+          <div>
+            <p class="banner-title">Join the conversation</p>
+            <p class="banner-text">Sign up to post your own messages.</p>
+          </div>
+          <a href="/signup" class="btn btn-primary">Create an account</a>
+        </section>
+      <% } else if (currentUser.role === "user") { %>
+        <section class="banner">
+          <div>
+            <p class="banner-title">Curious who wrote these?</p>
+            <p class="banner-text">Join the club to see the author and date of every message.</p>
+          </div>
+          <a href="/membership/join" class="btn btn-primary">Join the club</a>
+        </section>
       <% } %>
 
-    <% } else { %>
-      <p><a href="/login">Login</a> | <a href="/signup">Sign Up</a></p>
-    <% } %>
-    <% if (messages.length > 0) { %>
-        <% messages.forEach((message) => { %>
-            <div>
-                <h3><%= message.title %></h3>
-                <p><%= message.content %></p>
+      <h1 class="page-title mb-4">Messages</h1>
+
+      <% if (messages.length > 0) { %>
+        <div class="flex flex-col gap-4">
+          <% messages.forEach((message) => { %>
+            <article class="card message">
+              <div class="message-header">
                 <% if (canSeeAuthors) { %>
-                <small><%= message.name %> <%= message.surname %>, <%= message.created_at.toLocaleString() %></small>
-                <% if(currentUser.role==="admin") { %>
-                <form action="/messages/<%=message.id %>/delete" method="POST" onsubmit="return confirm('Delete this message?')">
-                    <button type="submit">Delete</button>
-                </form>
+                  <div class="avatar" aria-hidden="true"><%= (message.name[0] + message.surname[0]).toUpperCase() %></div>
+                  <div class="min-w-0 flex-1">
+                    <p class="message-author"><%= message.name %> <%= message.surname %></p>
+                    <time class="message-date" datetime="<%= message.created_at.toISOString() %>"><%= message.created_at.toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" }) %></time>
+                  </div>
+                  <% if (currentUser.role === "admin") { %>
+                    <form action="/messages/<%= message.id %>/delete" method="POST" onsubmit="return confirm('Delete this message?')">
+                      <button type="submit" class="btn-delete">Delete</button>
+                    </form>
+                  <% } %>
+                <% } else { %>
+                  <div class="avatar avatar-hidden" aria-hidden="true">?</div>
+                  <p class="message-author">Anonymous</p>
                 <% } %>
-                <% } %>
-            </div>
-        <% }) %>
-
-    <% } else { %>
-      <p>No messages yet.</p>
-    <% } %>
-
+              </div>
+              <h2 class="message-title"><%= message.title %></h2>
+              <p class="message-body"><%= message.content %></p>
+            </article>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="empty-state">
+          <p class="font-medium text-gray-900">No messages yet</p>
+          <% if (currentUser) { %>
+            <p class="mt-1 text-sm text-gray-500">Be the first to write something.</p>
+            <a href="/messages/new" class="btn btn-primary mt-4">New message</a>
+          <% } else { %>
+            <p class="mt-1 text-sm text-gray-500">Sign up to write the first one.</p>
+            <a href="/signup" class="btn btn-primary mt-4">Create an account</a>
+          <% } %>
+        </div>
+      <% } %>
+    </main>
   </body>
 </html>

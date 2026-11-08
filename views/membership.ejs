@@ -1,24 +1,33 @@
+<% const isAdminPage = title === "Admin"; %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %> access</title>
+    <%- include('partials/head', { pageTitle: isAdminPage ? 'Admin access' : 'Join the club' }) %>
   </head>
   <body>
-    <h1><%= title %> access</h1>
-    <% if(errors.length > 0) { %>
-      <ul>
-        <% errors.forEach((error) => { %>
-          <li><%= error.msg %></li>
-        <% }) %>
-      </ul>
-    <% } %>
-    <form action="/membership/<%= title === "Admin" ? "admin" : "join" %>" method="POST">
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
-      <br />
-      <button type="submit"><%= title %> membership</button>
-    </form>
+    <%- include('partials/header') %>
+
+    <main class="page-narrow">
+      <h1 class="page-title"><%= isAdminPage ? "Admin access" : "Join the club" %></h1>
+      <p class="page-subtitle mb-6">
+        <%= isAdminPage
+          ? "Enter the admin passcode to be able to delete messages."
+          : "Enter the club passcode to see who wrote each message and when." %>
+      </p>
+
+      <form action="/membership/<%= isAdminPage ? 'admin' : 'join' %>" method="POST" class="form-card">
+        <%- include('partials/formErrors') %>
+
+        <div class="field">
+          <label for="password" class="field-label">Passcode</label>
+          <input type="password" id="password" name="password" autocomplete="off" autofocus required class="field-input" />
+        </div>
+
+        <div class="flex justify-end gap-3">
+          <a href="/" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary"><%= isAdminPage ? "Become an admin" : "Join the club" %></button>
+        </div>
+      </form>
+    </main>
   </body>
 </html>

@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+/* Colours sampled from The Odin Project logo (500 is the wordmark gold) */
+@theme {
+  --color-gold-50: #fbf6ee;
+  --color-gold-100: #f5e9d5;
+  --color-gold-200: #ebd2a8;
+  --color-gold-300: #e0b97a;
+  --color-gold-400: #d6a55c;
+  --color-gold-500: #cc9543;
+  --color-gold-600: #b07a2c;
+  --color-gold-700: #8a5d21;
+  --color-gold-800: #6b481c;
+  --color-gold-900: #4d3417;
+}
+
+@layer base {
+  body {
+    @apply min-h-screen bg-gray-50 text-gray-800 antialiased;
+  }
+}
+
+@layer components {
+  /* Layout */
+  .site-header {
+    @apply sticky top-0 z-10 border-b border-gray-200 bg-white;
+  }
+
+  .site-header-inner {
+    @apply mx-auto flex max-w-2xl items-center justify-between gap-3 px-4 py-3;
+  }
+
+  .brand {
+    @apply flex items-center gap-2 text-lg font-bold whitespace-nowrap text-gray-900;
+  }
+
+  .page {
+    @apply mx-auto w-full max-w-2xl px-4 py-6 sm:py-8;
+  }
+
+  .page-narrow {
+    @apply mx-auto w-full max-w-md px-4 py-8 sm:py-12;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-gray-900;
+  }
+
+  .page-subtitle {
+    @apply mt-1 text-sm text-gray-500;
+  }
+
+  .card {
+    @apply rounded-xl border border-gray-200 bg-white;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center rounded-lg px-3.5 py-2 text-sm font-medium whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600;
+  }
+
+  .btn-primary {
+    @apply bg-gold-500 text-gray-900 hover:bg-gold-600;
+  }
+
+  .btn-secondary {
+    @apply border border-gray-300 bg-white text-gray-700 hover:bg-gray-100;
+  }
+
+  .btn-block {
+    @apply w-full py-2.5;
+  }
+
+  .btn-delete {
+    @apply cursor-pointer rounded-md px-2 py-1 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-red-600;
+  }
+
+  .link {
+    @apply font-medium text-gold-700 hover:underline;
+  }
+
+  /* Header */
+  .user-name {
+    @apply hidden max-w-40 truncate text-sm font-medium text-gray-700 sm:inline;
+  }
+
+  .role-badge {
+    @apply hidden rounded-md bg-gold-100 px-2 py-0.5 text-xs font-medium text-gold-800 sm:inline;
+  }
+
+  /* Banner */
+  .banner {
+    @apply mb-6 flex flex-col items-start gap-3 rounded-xl border border-gold-200 bg-gold-50 p-4 sm:flex-row sm:items-center sm:justify-between;
+  }
+
+  .banner-title {
+    @apply font-semibold text-gray-900;
+  }
+
+  .banner-text {
+    @apply mt-0.5 text-sm text-gray-600;
+  }
+
+  /* Messages */
+  .message {
+    @apply p-4 sm:p-5;
+  }
+
+  .message-header {
+    @apply mb-3 flex items-center gap-3;
+  }
+
+  .avatar {
+    @apply flex size-9 shrink-0 items-center justify-center rounded-full bg-gold-100 text-sm font-semibold text-gold-800;
+  }
+
+  .avatar-hidden {
+    @apply bg-gray-200 text-gray-500;
+  }
+
+  .message-author {
+    @apply truncate text-sm font-medium text-gray-900;
+  }
+
+  .message-date {
+    @apply text-xs text-gray-500;
+  }
+
+  .message-title {
+    @apply text-base font-semibold wrap-anywhere text-gray-900;
+  }
+
+  .message-body {
+    @apply mt-1 text-sm leading-6 wrap-anywhere whitespace-pre-line text-gray-700;
+  }
+
+  .empty-state {
+    @apply rounded-xl border border-gray-200 bg-white px-6 py-12 text-center;
+  }
+
+  /* Forms */
+  .form-card {
+    @apply flex flex-col gap-5 rounded-xl border border-gray-200 bg-white p-5 sm:p-6;
+  }
+
+  .field {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .field-label {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  .field-hint {
+    @apply text-xs text-gray-500;
+  }
+
+  .field-input {
+    @apply w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 transition-colors focus:border-gold-600 focus:ring-1 focus:ring-gold-600 focus:outline-none;
+  }
+
+  .error-box {
+    @apply rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700;
+  }
+
+  .form-footer {
+    @apply mt-5 text-center text-sm text-gray-600;
+  }
+}

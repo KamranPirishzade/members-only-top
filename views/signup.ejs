@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign up</title>
+    <%- include('partials/head', { pageTitle: 'Sign up' }) %>
   </head>
   <body>
-    <h1>Sign up</h1>
-    <% if (errors && errors.length > 0) { %>
-      <ul>
-        <% errors.forEach((error) => { %>
-          <li><%= error.msg %></li>
-        <% }); %>
-      </ul>
-    <% } %>
+    <%- include('partials/header') %>
 
-    <form action="/signup" method="POST">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" value="<%= data ? data.name : '' %>" required /><br />
+    <main class="page-narrow">
+      <h1 class="page-title">Create your account</h1>
+      <p class="page-subtitle mb-6">It only takes a minute.</p>
 
-      <label for="surname">Surname:</label>
-      <input type="text" id="surname" name="surname" value="<%= data ? data.surname : '' %>" required /><br />
+      <form action="/signup" method="POST" class="form-card">
+        <%- include('partials/formErrors') %>
 
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" value="<%= data ? data.username : '' %>" required /><br />
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div class="field">
+            <label for="name" class="field-label">Name</label>
+            <input type="text" id="name" name="name" value="<%= data.name %>" maxlength="200" autocomplete="given-name" autofocus required class="field-input" />
+          </div>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required /><br />
-      
-      <label for="confirmPassword">Confirm password:</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" required /><br />
+          <div class="field">
+            <label for="surname" class="field-label">Surname</label>
+            <input type="text" id="surname" name="surname" value="<%= data.surname %>" maxlength="200" autocomplete="family-name" required class="field-input" />
+          </div>
+        </div>
 
-      <button type="submit">Sign Up</button>
-    </form>
+        <div class="field">
+          <label for="username" class="field-label">Username</label>
+          <input type="text" id="username" name="username" value="<%= data.username %>" maxlength="200" autocomplete="username" required class="field-input" />
+        </div>
 
-    <p>Already have an account? <a href="/login">Log in here</a>.</p>
+        <div class="field">
+          <label for="password" class="field-label">Password</label>
+          <input type="password" id="password" name="password" minlength="8" autocomplete="new-password" aria-describedby="password-hint" required class="field-input" />
+          <p id="password-hint" class="field-hint">At least 8 characters.</p>
+        </div>
+
+        <div class="field">
+          <label for="confirmPassword" class="field-label">Confirm password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" required class="field-input" />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+      </form>
+
+      <p class="form-footer">Already have an account? <a href="/login" class="link">Log in</a></p>
+    </main>
   </body>
 </html>

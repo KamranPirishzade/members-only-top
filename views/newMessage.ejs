@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Message</title>
+    <%- include('partials/head', { pageTitle: 'New message' }) %>
   </head>
   <body>
-    <% if(errors.length > 0) { %>
-      <ul>
-        <% errors.forEach((error) => { %>
-          <li><%= error.msg %></li>
-        <% }) %>
-      </ul>
-    <% } %>
-    <form action="/messages/new" method="POST">
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title" value="<%= data.title %>" required />
-      <br />
-      <label for="content">Content:</label>
-      <textarea id="content" name="content" required><%= data.content %></textarea>
-      <br />
-      <button type="submit">Submit</button>
-    </form>
+    <%- include('partials/header') %>
+
+    <main class="page">
+      <h1 class="page-title mb-6">New message</h1>
+
+      <form action="/messages/new" method="POST" class="form-card">
+        <%- include('partials/formErrors') %>
+
+        <div class="field">
+          <label for="title" class="field-label">Title</label>
+          <input type="text" id="title" name="title" value="<%= data.title %>" maxlength="100" autofocus required class="field-input" />
+        </div>
+
+        <div class="field">
+          <label for="content" class="field-label">Message</label>
+          <textarea id="content" name="content" rows="6" maxlength="1000" aria-describedby="content-hint" required class="field-input"><%= data.content %></textarea>
+          <p id="content-hint" class="field-hint">Up to 1000 characters.</p>
+        </div>
+
+        <div class="flex justify-end gap-3">
+          <a href="/" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary">Post message</button>
+        </div>
+      </form>
+    </main>
   </body>
 </html>

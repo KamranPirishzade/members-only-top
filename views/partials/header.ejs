@@ -1,0 +1,24 @@
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="brand">
+      <img src="/logo.png" alt="" width="32" height="32" class="size-8" />
+      <span class="max-[379px]:sr-only">Members <span class="text-gold-600">Only</span></span>
+    </a>
+
+    <nav class="flex items-center gap-2 sm:gap-3">
+      <% if (currentUser) { %>
+        <span class="user-name"><%= currentUser.name %></span>
+        <% if (currentUser.role !== "user") { %>
+          <span class="role-badge"><%= currentUser.role === "admin" ? "Admin" : "Member" %></span>
+        <% } %>
+        <a href="/messages/new" class="btn btn-primary"><span class="sm:hidden">New</span><span class="hidden sm:inline">New message</span></a>
+        <form action="/logout" method="POST">
+          <button type="submit" class="btn btn-secondary">Log out</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="btn btn-secondary">Log in</a>
+        <a href="/signup" class="btn btn-primary">Sign up</a>
+      <% } %>
+    </nav>
+  </div>
+</header>
